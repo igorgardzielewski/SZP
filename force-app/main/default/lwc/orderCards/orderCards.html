@@ -1,0 +1,29 @@
+<template>
+    <template if:true={orders.data}>
+        <div class="slds-grid slds-wrap">
+            <template for:each={orders.data} for:item="order">
+                <div
+                    key={order.Id}
+                    class="slds-col slds-size_1-of-3 slds-p-around_small"
+                >
+                    <div
+                        class="slds-card slds-p-around_medium slds-box slds-theme_default"
+                        data-id={order.Id}
+                        onclick={handleClick}
+                        style="cursor: pointer;"
+                    >
+                        <h2 class="slds-text-heading_small">{order.Name}</h2>
+                        <p><strong>Status:</strong> {order.Order_Status__c}</p>
+                        <p><strong>Data:</strong>
+                            <lightning-formatted-date-time value={order.CreatedDate}></lightning-formatted-date-time>
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={orders.error}>
+        <p>Error: {orders.error.message}</p>
+    </template>
+</template>
