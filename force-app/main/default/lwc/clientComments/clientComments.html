@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Komentarze Klienta" icon-name="standard:comments">
+        <template if:true={comments}>
+            <template for:each={comments} for:item="comment">
+                <div key={comment.Id} class="slds-box slds-m-bottom_small">
+                    <p>{comment.Comment_Text__c}</p>
+                    <p class="slds-text-color_weak">
+                        <lightning-formatted-date-time value={comment.Comment_Date__c}></lightning-formatted-date-time>
+                    </p>
+                </div>
+            </template>
+        </template>
+
+        <template if:true={error}>
+            <p class="slds-text-color_error">Błąd: {error.message}</p>
+        </template>
+
+        <template if:true={hasNoComments}>
+            <p>Brak komentarzy do wyświetlenia.</p>
+        </template>
+    </lightning-card>
+</template>

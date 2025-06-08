@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Szczegóły Zamówienia">
+        <template if:true={order.data}>
+            <p><strong>Konto:</strong> {accountName}</p>
+            <p><strong>Tytuł Projektu:</strong> {projectTitle}</p>
+            <p><strong>Status:</strong> {orderStatus}</p>
+        </template>
+        <template if:true={order.error}>
+            <p class="slds-text-color_error">Błąd: {order.error.message}</p>
+        </template>
+    </lightning-card>
+</template>
