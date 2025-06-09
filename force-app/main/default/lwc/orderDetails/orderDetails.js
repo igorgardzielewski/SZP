@@ -1,7 +1,6 @@
-import { LightningElement, wire, api } from 'lwc';  // dodaj @api
+import { LightningElement, wire, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-
 import ACCOUNT_NAME_FIELD from '@salesforce/schema/Order_Request__c.Account__r.Name';
 import PROJECT_TITLE_FIELD from '@salesforce/schema/Order_Request__c.ProjectTitle__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Order_Request__c.Order_Status__c';
@@ -13,27 +12,40 @@ const FIELDS = [
 ];
 
 export default class OrderDetails extends LightningElement {
-    @api recordId; 
-
+    @api recordId;
+    
     @wire(CurrentPageReference)
-    getPageRef(pageRef) {
-        if (pageRef?.state?.id) {
-            this.recordId = pageRef.state.id;
-        }
+    pageRef;
+    
+    get effectiveRecordId() {
+        return this.recordId || this.pageRef?.state?.id || this.pageRef?.state?.recordId;
     }
-
-    @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
+    
+    @wire(getRecord, { recordId: '$effectiveRecordId', fields: FIELDS })
     order;
-
+    
     get accountName() {
-        return getFieldValue(this.order.data, ACCOUNT_NAME_FIELD);
+        if (this.order?.data) {
+            return getFieldValue(this.order.data, ACCOUNT_NAME_FIELD);
+        }
+        return '';
     }
-
+    
     get projectTitle() {
-        return getFieldValue(this.order.data, PROJECT_TITLE_FIELD);
+        if (this.order?.data) {
+            return getFieldValue(this.order.data, PROJECT_TITLE_FIELD);
+        }
+        return '';
     }
-
+    
     get orderStatus() {
-        return getFieldValue(this.order.data, ORDER_STATUS_FIELD);
+        if (this.order?.data) {
+            return getFieldValue(this.order.data, ORDER_STATUS_FIELD);
+        }
+        return '';
+    }
+    
+    get isLoading() {
+        return !this.order?.data && !this.order?.error && this.effectiveRecordId;
     }
 }

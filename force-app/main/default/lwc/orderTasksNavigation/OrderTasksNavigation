@@ -1,0 +1,47 @@
+/* Button responsiveness */
+.slds-button {
+    min-height: 2.5rem;
+}
+
+/* Ensure buttons stack nicely on mobile */
+@media (max-width: 768px) {
+    .slds-col {
+        margin-bottom: 0.5rem;
+    }
+    
+    .slds-col:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Status badge styling */
+.slds-badge {
+    font-weight: 600;
+}
+
+/* Loading state styling */
+.loading-text {
+    color: #5c5c5c;
+    font-style: italic;
+}
+
+/* Hover effects for buttons */
+.slds-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    transition: transform 0.1s ease;
+}
+
+/* Task count section */
+.task-count-section {
+    background-color: #f7f9fb;
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+
+/* Error state styling */
+.error-message {
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #fef7f7;
+    border: 1px solid #ea001e;
+}

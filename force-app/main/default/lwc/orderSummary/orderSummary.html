@@ -1,10 +1,37 @@
 <template>
     <lightning-card title="Podsumowanie zamówienia" icon-name="standard:orders">
         <div class="slds-p-around_medium">
-            <p><strong>Klient:</strong> {accountName}</p>
-            <p><strong>Osoba kontaktowa:</strong> {contactName}</p>
-            <p><strong>Tytuł projektu:</strong> {projectTitle}</p>
-            <p><strong>Status:</strong> {orderStatus}</p>
+            <template if:true={hasNoRecordId}>
+                <div class="slds-text-color_error">
+                    <p>Brak identyfikatora rekordu</p>
+                </div>
+            </template>
+            
+            <template if:true={hasError}>
+                <div class="slds-text-color_error">
+                    <p>Błąd podczas ładowania danych zamówienia</p>
+                </div>
+            </template>
+            
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center">
+                    <lightning-spinner alternative-text="Ładowanie danych..." size="small"></lightning-spinner>
+                </div>
+            </template>
+            
+            <template if:false={hasNoRecordId}>
+                <template if:false={hasError}>
+                    <p><strong>Klient:</strong> {accountName}</p>
+                    <p><strong>Osoba kontaktowa:</strong> {contactName}</p>
+                    <p><strong>Tytuł projektu:</strong> {projectTitle}</p>
+                    <p><strong>Status:</strong> 
+                        <lightning-badge 
+                            label={orderStatus} 
+                            variant={statusVariant}>
+                        </lightning-badge>
+                    </p>
+                </template>
+            </template>
         </div>
     </lightning-card>
 </template>

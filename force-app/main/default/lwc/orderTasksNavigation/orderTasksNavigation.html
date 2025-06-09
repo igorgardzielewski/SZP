@@ -1,0 +1,114 @@
+<template>
+    <lightning-card title={cardTitle} icon-name="standard:task">
+        <div class="slds-p-around_medium">
+            <!-- Status Information -->
+            <template if:true={order.data}>
+                <div class="slds-m-bottom_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                        <div class="slds-col">
+                            <p class="slds-text-body_small slds-text-color_weak">
+                                Status zamówienia:
+                            </p>
+                            <lightning-badge 
+                                label={orderStatus} 
+                                variant={statusVariant}
+                                class="slds-m-top_xx-small">
+                            </lightning-badge>
+                        </div>
+                        <div class="slds-col slds-shrink">
+                            <lightning-button-icon
+                                icon-name="utility:refresh"
+                                variant="border-filled"
+                                alternative-text="Odśwież"
+                                title="Odśwież liczbę zadań"
+                                data-action="refresh"
+                                onclick={handleQuickActions}
+                                disabled={isLoadingTasks}>
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-m-top_small">
+                        <p class="slds-text-body_small">{statusMessage}</p>
+                    </div>
+                </div>
+            </template>
+            
+            <!-- Loading State -->
+            <template if:true={order.loading}>
+                <div class="slds-text-align_center slds-p-vertical_medium">
+                    <lightning-spinner size="small" alternative-text="Ładowanie danych zamówienia..."></lightning-spinner>
+                </div>
+            </template>
+            
+            <!-- Error State -->
+            <template if:true={order.error}>
+                <div class="slds-text-color_error slds-text-align_center slds-p-vertical_medium">
+                    <lightning-icon icon-name="utility:error" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <span>Błąd podczas ładowania danych zamówienia</span>
+                </div>
+            </template>
+            
+            <!-- Action Buttons -->
+            <div class="slds-grid slds-gutters slds-wrap">
+                <!-- Main Navigation Button -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_2-of-3">
+                    <lightning-button
+                        variant={buttonVariant}
+                        label={buttonLabel}
+                        icon-name={buttonIcon}
+                        icon-position="left"
+                        onclick={handleNavigateToTasks}
+                        disabled={isButtonDisabled}
+                        class="slds-size_1-of-1">
+                    </lightning-button>
+                </div>
+                
+                <!-- Quick Action: New Task -->
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-6">
+                    <lightning-button
+                        variant="neutral"
+                        label="Nowe zadanie"
+                        icon-name="utility:add"
+                        icon-position="left"
+                        data-action="newTask"
+                        onclick={handleQuickActions}
+                        disabled={isButtonDisabled}
+                        class="slds-size_1-of-1">
+                    </lightning-button>
+                </div>
+                
+                <!-- Quick Action: View All -->
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-6">
+                    <lightning-button
+                        variant="outline-brand"
+                        label="Zobacz wszystkie"
+                        icon-name="utility:list"
+                        icon-position="left"
+                        data-action="viewAll"
+                        onclick={handleQuickActions}
+                        disabled={isButtonDisabled}
+                        class="slds-size_1-of-1">
+                    </lightning-button>
+                </div>
+            </div>
+            
+            <!-- Task Count Information -->
+            <template if:true={showTaskCount}>
+                <template if:false={isLoadingTasks}>
+                    <div class="slds-m-top_medium slds-p-top_medium slds-border_top">
+                        <div class="slds-grid slds-grid_align-spread slds-text-body_small slds-text-color_weak">
+                            <div class="slds-col">
+                                <lightning-icon icon-name="utility:task" size="xx-small" class="slds-m-right_x-small"></lightning-icon>
+                                <span>Łączna liczba zadań:</span>
+                            </div>
+                            <div class="slds-col slds-shrink">
+                                <strong>{taskCount}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,29 +1,37 @@
 <template>
-    <template if:true={orders.data}>
-        <div class="slds-grid slds-wrap">
-            <template for:each={orders.data} for:item="order">
-                <div
-                    key={order.Id}
-                    class="slds-col slds-size_1-of-3 slds-p-around_small"
-                >
-                    <div
-                        class="slds-card slds-p-around_medium slds-box slds-theme_default"
-                        data-id={order.Id}
-                        onclick={handleClick}
-                        style="cursor: pointer;"
-                    >
-                        <h2 class="slds-text-heading_small">{order.Name}</h2>
-                        <p><strong>Status:</strong> {order.Order_Status__c}</p>
-                        <p><strong>Data:</strong>
-                            <lightning-formatted-date-time value={order.CreatedDate}></lightning-formatted-date-time>
-                        </p>
+    <template if:true={ordersWithStyle}>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <template for:each={ordersWithStyle} for:item="order">
+                <div key={order.Id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_small">
+                    <div data-id={order.Id} onclick={handleClick} class="card-container">
+                        <lightning-card>
+                            <h2 slot="title" class="slds-card__header-title">
+                                <lightning-icon icon-name={order.iconName} size="small" class="slds-m-right_small"></lightning-icon>
+                                {order.Name}
+                            </h2>
+
+                            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                                <div class={order.sldsClass} style="padding: 10px; border-radius: 4px; text-align: center; margin-bottom: 12px;">
+                                    <p class="slds-text-title_bold" style="color: white;">Status: {order.Order_Status__c}</p>
+                                </div>
+                                <p><strong>Data:</strong>
+                                    <lightning-formatted-date-time value={order.CreatedDate} year="numeric" month="long" day="2-digit"></lightning-formatted-date-time>
+                                </p>
+                            </div>
+
+                             <div slot="footer" class="slds-text-align_center slds-text-color_weak">
+                                Kliknij, aby zobaczyć szczegóły
+                            </div>
+                        </lightning-card>
                     </div>
                 </div>
             </template>
         </div>
     </template>
 
-    <template if:true={orders.error}>
-        <p>Error: {orders.error.message}</p>
+    <template if:true={error}>
+         <div class="slds-p-around_medium">
+            <p>Wystąpił błąd: {error.body.message}</p>
+        </div>
     </template>
 </template>

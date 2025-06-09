@@ -1,22 +1,83 @@
 <template>
     <lightning-card title="Komentarze Klienta" icon-name="standard:comments">
-        <template if:true={comments}>
-            <template for:each={comments} for:item="comment">
-                <div key={comment.Id} class="slds-box slds-m-bottom_small">
-                    <p>{comment.Comment_Text__c}</p>
-                    <p class="slds-text-color_weak">
-                        <lightning-formatted-date-time value={comment.Comment_Date__c}></lightning-formatted-date-time>
+        <div class="slds-p-around_medium">
+            <!-- Brak Record ID -->
+            <template if:true={hasNoRecordId}>
+                <div class="slds-text-color_error slds-text-align_center">
+                    <lightning-icon icon-name="utility:warning" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <span>Brak identyfikatora zamówienia</span>
+                </div>
+            </template>
+            
+            <!-- Loading -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_medium">
+                    <lightning-spinner alternative-text="Ładowanie komentarzy..." size="small"></lightning-spinner>
+                    <p class="slds-text-color_weak slds-m-top_small">Ładowanie komentarzy...</p>
+                </div>
+            </template>
+            
+            <!-- Error -->
+            <template if:true={hasError}>
+                <div class="slds-text-color_error slds-text-align_center">
+                    <lightning-icon icon-name="utility:error" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <span>Błąd podczas ładowania komentarzy: {errorMessage}</span>
+                </div>
+            </template>
+            
+            <!-- Comments List -->
+            <template if:true={hasComments}>
+                <div class="comments-container">
+                    <template for:each={comments} for:item="comment">
+                        <article key={comment.Id} class="slds-box slds-box_x-small slds-m-bottom_small comment-item">
+                            <div class="slds-grid slds-gutters_small">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <!-- Comment Text -->
+                                    <div class="slds-m-bottom_x-small">
+                                        <p class="comment-text">{comment.Comment_Text__c}</p>
+                                    </div>
+                                    
+                                    <!-- Comment Metadata -->
+                                    <div class="slds-grid slds-grid_align-spread slds-text-body_small slds-text-color_weak">
+                                        <div class="slds-col">
+                                            <lightning-icon icon-name="utility:clock" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                            <lightning-formatted-date-time 
+                                                value={comment.Comment_Date__c}
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                hour="2-digit"
+                                                minute="2-digit">
+                                            </lightning-formatted-date-time>
+                                        </div>
+                                        
+                                        <!-- Optional: Author info if available -->
+                                        <template if:true={comment.Author__c}>
+                                            <div class="slds-col slds-shrink">
+                                                <lightning-icon icon-name="utility:user" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                                <span>{comment.Author__c}</span>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            
+            <!-- No Comments -->
+            <template if:true={hasNoComments}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-icon icon-name="utility:comments" size="large" class="slds-text-color_weak"></lightning-icon>
+                    <h3 class="slds-text-heading_small slds-m-top_small slds-text-color_weak">
+                        Brak komentarzy
+                    </h3>
+                    <p class="slds-text-color_weak slds-m-top_x-small">
+                        Nie ma jeszcze żadnych komentarzy dla tego zamówienia.
                     </p>
                 </div>
             </template>
-        </template>
-
-        <template if:true={error}>
-            <p class="slds-text-color_error">Błąd: {error.message}</p>
-        </template>
-
-        <template if:true={hasNoComments}>
-            <p>Brak komentarzy do wyświetlenia.</p>
-        </template>
+        </div>
     </lightning-card>
 </template>

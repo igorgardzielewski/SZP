@@ -1,0 +1,30 @@
+.comments-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    border-left: 3px solid var(--slds-c-brand-color-primary, #1589ee);
+    transition: box-shadow 0.2s ease;
+}
+
+.comment-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: pre-line;
+}
+
+@media (max-width: 768px) {
+    .comments-container {
+        max-height: 300px;
+    }
+    
+    .comment-item {
+        margin-bottom: 0.5rem;
+    }
+}

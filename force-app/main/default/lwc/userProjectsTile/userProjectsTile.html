@@ -1,0 +1,37 @@
+<template>
+    <div class="tile-container" onclick={handleTileClick}>
+        <div class="tile-content">
+
+            <div class="icon-section">
+                <lightning-icon
+                    icon-name="standard:account"
+                    size="large"
+                    variant="inverse">
+                </lightning-icon>
+            </div>
+
+            <div class="text-section">
+                <h3 class="tile-title">{title}</h3>
+                <p class="tile-description">{description}</p>
+            </div>
+
+            <div class="status-section">
+                <template if:true={loading}>
+                    <lightning-spinner alternative-text="Ładowanie..." size="small"></lightning-spinner>
+                    <span class="status-text">Ładowanie...</span>
+                </template>
+                <template if:false={loading}>
+                    <template if:true={hasProjects}>
+                        <lightning-icon icon-name="utility:success" size="x-small" variant="inverse"></lightning-icon>
+                        <span class="status-text">{projectsText}</span>
+                    </template>
+                    <template if:false={hasProjects}>
+                        <lightning-icon icon-name="utility:info" size="x-small" variant="inverse"></lightning-icon>
+                        <span class="status-text">Brak projektów</span>
+                    </template>
+                </template>
+            </div>
+
+        </div>
+    </div>
+</template>

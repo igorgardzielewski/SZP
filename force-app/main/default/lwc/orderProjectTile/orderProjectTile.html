@@ -1,0 +1,25 @@
+<template>
+    <div class="tile-container" onclick={handleTileClick}>
+        <div class="tile-content">
+
+            <div class="icon-section">
+                <lightning-icon
+                    icon-name="standard:orders"
+                    size="large"
+                    variant="inverse">
+                </lightning-icon>
+            </div>
+
+            <div class="text-section">
+                <h3 class="tile-title">Zamów Projekt</h3>
+                <p class="tile-description">Rozpocznij nowy projekt lub zamów dodatkowe usługi dla istniejących.</p>
+            </div>
+
+            <div class="status-section">
+                 <lightning-icon icon-name="utility:forward_up" size="x-small" variant="inverse"></lightning-icon>
+                <span class="status-text">Przejdź do składania zamówień</span>
+            </div>
+
+        </div>
+    </div>
+</template>

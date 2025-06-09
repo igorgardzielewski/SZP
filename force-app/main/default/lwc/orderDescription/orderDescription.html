@@ -1,7 +1,19 @@
 <template>
     <lightning-card title="Opis zamówienia" icon-name="standard:description">
         <div class="slds-p-around_medium">
-            <p>{description}</p>
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Ładowanie..." size="small"></lightning-spinner>
+            </template>
+            
+            <template if:true={hasError}>
+                <div class="slds-text-color_error">
+                    <p>Błąd podczas ładowania opisu zamówienia</p>
+                </div>
+            </template>
+            
+            <template if:true={order.data}>
+                <p>{description}</p>
+            </template>
         </div>
     </lightning-card>
 </template>

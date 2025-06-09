@@ -1,0 +1,42 @@
+
+.status-step {
+    
+    z-index: 1;
+}
+
+.step-circle-inactive {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #c9c9c9;
+    background-color: #ffffff;
+}
+
+.step-label-active {
+    font-weight: bold;
+    color: var(--slds-c-brand-color-primary, #1589ee);
+}
+
+.step-label-completed {
+    color: var(--slds-c-brand-color-success, #04844b);
+}
+
+.step-label-inactive {
+    color: #5c5c5c;
+}
+
+/* Connection lines between steps */
+.status-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 24px;
+    width: 2px;
+    height: 20px;
+    background-color: #e0e0e0;
+    z-index: 0;
+}
+
+.status-step.completed:not(:last-child)::after {
+    background-color: var(--slds-c-brand-color-success, #04844b);
+}
